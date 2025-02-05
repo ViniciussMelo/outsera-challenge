@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>Cart Microservice</h1>
+  <h1>Outsera Challenge</h1>
 </div>
 <div>
   <strong>This project is using nodejs + typescript.</strong>
