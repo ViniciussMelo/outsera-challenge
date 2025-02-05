@@ -54,5 +54,5 @@ The application can be run locally or in a docker container, the requirements fo
 
 ## Improvements
 - Add unit tests;
-- Add more endpoints to be able to create more movies and update the table;
+- Add more endpoints to be able to create more movies and update the database;
 - Replace the in-memory database with a persistent solution, such as PostgreSQL or MySQL, ensuring better data durability, scalability, and reliability.
