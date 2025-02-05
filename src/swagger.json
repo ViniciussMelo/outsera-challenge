@@ -1,0 +1,105 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Winner Service API",
+    "description": "API to fetch movie producer statistics based on their winning years.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/winner/getInterval": {
+      "get": {
+        "tags": ["Winner"],
+        "summary": "Get movie producers' winning intervals.",
+        "description": "Fetch the minimum and maximum intervals between years a producer won.",
+        "operationId": "getInterval",
+        "responses": {
+          "200": {
+            "description": "Successful response with the minimum and maximum intervals of producers' movie wins.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "min": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "producer": {
+                            "type": "string",
+                            "description": "The producer's name.",
+                            "example": "Producer 1"
+                          },
+                          "interval": {
+                            "type": "integer",
+                            "description": "The interval between wins.",
+                            "example": 1
+                          },
+                          "previousWin": {
+                            "type": "integer",
+                            "description": "The previous year the producer won.",
+                            "example": 2008
+                          },
+                          "followingWin": {
+                            "type": "integer",
+                            "description": "The following year the producer won.",
+                            "example": 2009
+                          }
+                        }
+                      }
+                    },
+                    "max": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "producer": {
+                            "type": "string",
+                            "description": "The producer's name.",
+                            "example": "Producer 1"
+                          },
+                          "interval": {
+                            "type": "integer",
+                            "description": "The interval between wins.",
+                            "example": 99
+                          },
+                          "previousWin": {
+                            "type": "integer",
+                            "description": "The previous year the producer won.",
+                            "example": 1900
+                          },
+                          "followingWin": {
+                            "type": "integer",
+                            "description": "The following year the producer won.",
+                            "example": 1999
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message describing the problem.",
+                      "example": "Internal Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

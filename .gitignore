@@ -1,0 +1,8 @@
+node_modules
+.DS_STORE
+**.sqlite3
+**.db
+
+.env
+.vscode
+coverage
