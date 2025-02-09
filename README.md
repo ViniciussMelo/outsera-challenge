@@ -29,16 +29,6 @@ The application can be run locally or in a docker container, the requirements fo
 
 ## Running
 > Before you run the application, you need to create a ```.env``` file and provide the environment values, by copying the ```.env.example``` and provide the values.
-> We are using prisma, that we need to generate prisma models with:
->
-> ```
-> npx prisma generate
-> ```
-> After that we need to push/create the database tables
->
-> ```
-> npx prisma db push
-> ```
 > Now you can run the application using the command
 >
 > ```
