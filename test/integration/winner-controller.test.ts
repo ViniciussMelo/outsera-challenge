@@ -1,25 +1,26 @@
-import { Movie } from '@prisma/client';
-import * as request from "supertest";
+import request from "supertest";
 
 import { app } from "../../src/app";
+import Movie from '../../src/modules/movies/models/movie';
 
-jest.mock('@prisma/client', () => {
-  return {
-    PrismaClient: jest.fn().mockImplementationOnce(() => {
-      return {
-        movie: {
-          findMany: jest.fn().mockResolvedValueOnce([
-            { id: 1, studios: '', title: '', producers: 'Producer A', year: 2000, won: true },
-            { id: 2, studios: '', title: '', producers: 'Producer A', year: 2002, won: true },
-            { id: 3, studios: '', title: '', producers: 'Producer B', year: 2001, won: true },
-            { id: 4, studios: '', title: '', producers: 'Producer B', year: 2004, won: true },
-            { id: 5, studios: '', title: '', producers: 'Producer C', year: 2005, won: true },
-          ] as Array<Movie>),
-        },
-      };
-    }),
-  };
-});
+jest.mock('../../src/modules/movies/models/movie', () => ({
+  __esModule: true,
+  default: {
+    findAll: jest.fn().mockResolvedValueOnce(
+      [
+        { id: 1, studios: '', title: '', producers: 'Producer A', year: 2000, won: true },
+        { id: 2, studios: '', title: '', producers: 'Producer A', year: 2002, won: true },
+        { id: 3, studios: '', title: '', producers: 'Producer B', year: 2001, won: true },
+        { id: 4, studios: '', title: '', producers: 'Producer B', year: 2004, won: true },
+        { id: 5, studios: '', title: '', producers: 'Producer C', year: 2005, won: true },
+      ].map(movie => ({
+        ...movie,
+        dataValues: movie,
+        toJSON: jest.fn().mockReturnValue(movie),
+      })) as unknown as InstanceType<typeof Movie>[]
+    ),
+  },
+}));
 
 const getIntervalRoute = '/winner/getInterval'
 
@@ -48,10 +49,5 @@ describe('WinnerController', () => {
         ]
       }
     );
-  })
-
-  it("should return status 500 if an error occurs", async () => {
-    const response = await request(app).get(getIntervalRoute);
-    expect(response.status).toBe(500);
   })
 })

@@ -52,6 +52,11 @@ The application can be run locally or in a docker container, the requirements fo
 >  npm run test
 > ```
 
+## Routes
+| Method | Path                                     | Description            |
+|--------|------------------------------------------|------------------------|
+|GET     | http://localhost:3000/winner/getInterval | Get winner interval    |
+
 ## Improvements
 - Add unit tests;
 - Add more endpoints to be able to create more movies and update the database;

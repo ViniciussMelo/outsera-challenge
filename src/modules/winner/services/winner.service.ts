@@ -1,8 +1,5 @@
-import { PrismaClient } from "@prisma/client"
-
 import { IGetMovieWinners, IGetMovieWinnersResponse } from '../interfaces/get-movie-winners.interface'
-
-const prisma = new PrismaClient();
+import Movie from '../../movies/models/movie';
 
 export class WinnerService {
   private readonly MIN_WIN = 1;
@@ -53,18 +50,17 @@ export class WinnerService {
   }
 
   private async getMovieWinners(): Promise<Map<string, number[]>> {
-    const winners = await prisma.movie.findMany({
+    const moviesWithWinners = await Movie.findAll({
       where: {
         won: true
       },
-      orderBy: {
-        year: 'asc'
-      }
+      order: [['year', 'ASC']]
     });
 
     const producerWins = new Map<string, number[]>();
-
-    winners.forEach(({producers, year}) => {
+    
+    moviesWithWinners?.forEach((movie) => {
+      const { producers, year } = movie.toJSON()
       const formattedProducers = producers.split('and ').join(', ').split(', ').map(p => p.trim());
 
       formattedProducers.forEach((producer) => {

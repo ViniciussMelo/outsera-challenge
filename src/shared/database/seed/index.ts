@@ -1,9 +1,8 @@
-import { Movie, PrismaClient } from "@prisma/client";
-import * as readline from "readline";
-import * as path from "path";
-import * as fs from "fs";
+import readline from "readline";
+import path from "path";
+import fs from "fs";
 
-const prisma = new PrismaClient();
+import Movie from '../../../modules/movies/models/movie'
 
 interface IMovie {
   year: number;
@@ -13,17 +12,13 @@ interface IMovie {
   won: boolean;
 }
 
-async function main () {
-  console.log("Deleting movies...");
-  await prisma.movie.deleteMany();
-
+export async function executeSeed () {
   console.log("Running seed...");
-  const filePath = path.join(__dirname, "..", "tmp", "movielist.csv");
+  const filePath = path.join(__dirname, "..", "..", "..", "..", "tmp", "movielist.csv");
   const movies = await parseCSV(filePath);
 
-  await prisma.movie.createMany({
-    data: movies
-  });
+  await Movie.sync({ force: true });
+  await Movie.bulkCreate(movies);
   
   console.log("Seed executed successfully!");
 }
@@ -66,11 +61,3 @@ function parseCSV(filePath: string): Promise<IMovie[]> {
     });
   });
 }
-
-main()
-  .catch((error) => {
-    console.error("Error executing seed:", error);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
